@@ -7,11 +7,12 @@ import (
 )
 
 func openingHandler(openingRoutes *gin.RouterGroup) {
+	const root = "/"
 	openingRoutes.GET("/:openingId", showSpecificOpening)
-	openingRoutes.GET("/", listOpeningsHandler)
-	openingRoutes.POST("/", createOpeningHander)
-	openingRoutes.DELETE("/", deleteOpeningHander)
-	openingRoutes.PUT("/", updateOpeningHander)
+	openingRoutes.GET(root, listOpeningsHandler)
+	openingRoutes.POST(root, createOpeningHander)
+	openingRoutes.DELETE(root, deleteOpeningHander)
+	openingRoutes.PUT(root, updateOpeningHander)
 }
 
 func listOpeningsHandler(context *gin.Context) {
