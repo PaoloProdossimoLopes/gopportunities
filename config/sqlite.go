@@ -43,5 +43,5 @@ func InitializeSQLite() (*gorm.DB, error) {
 		return nil, migrateDataBaseError
 	}
 
-	return db, nil
+	return database, nil
 }
