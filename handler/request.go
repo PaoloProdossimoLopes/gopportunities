@@ -43,3 +43,23 @@ func (cor *CreateOpeningRequest) Validate() error {
 func requiredParam(paramName, paramType string) error {
 	return fmt.Errorf("missing param: %s (type: %s) is required!", paramName, paramType)
 }
+
+type UpdateOpeningRequest struct {
+	Id       uint   `json:"id"`
+	Role     string `json:"role"`
+	Company  string `json:"company"`
+	Location string `json:"location"`
+	Remote   *bool  `json:"remote"`
+	Link     string `json:"link"`
+	Salary   int64  `json:"salary"`
+}
+
+func (cor *UpdateOpeningRequest) Validate() error {
+	if cor.Role != "" || cor.Company != "" ||
+		cor.Location != "" || cor.Link != "" ||
+		cor.Remote != nil || cor.Salary > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("at least one filed must be provided")
+}
