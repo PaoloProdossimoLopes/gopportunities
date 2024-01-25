@@ -4,11 +4,13 @@ import (
 	"net/http"
 
 	"github.com/PaoloProdossimoLopes/gopportunities/schemas"
+
 	"github.com/gin-gonic/gin"
 )
 
 func openingHandler(openingRoutes *gin.RouterGroup) {
 	const root = "/"
+
 	openingRoutes.GET("/get", showSpecificOpening)
 	openingRoutes.GET(root, listOpeningsHandler)
 	openingRoutes.POST(root, createOpeningHander)
