@@ -17,8 +17,21 @@ func openingHandler(openingRoutes *gin.RouterGroup) {
 }
 
 func listOpeningsHandler(context *gin.Context) {
-	context.JSON(http.StatusOK, gin.H{
-		"message": "GET Opening",
+	openings := []schemas.Opening{}
+
+	if err := db.Find(&openings).Error; err != nil {
+		const statusCode = http.StatusInternalServerError
+		context.JSON(statusCode, gin.H{
+			"error":       "Internal server error",
+			"reason":      "Error listing openings",
+			"status_code": statusCode,
+		})
+		return
+	}
+
+	const statusCode = http.StatusOK
+	context.JSON(statusCode, gin.H{
+		"openings": openings,
 	})
 }
 
@@ -68,13 +81,73 @@ func createOpeningHander(context *gin.Context) {
 }
 
 func deleteOpeningHander(context *gin.Context) {
-	context.JSON(http.StatusOK, gin.H{
-		"message": "DELETE Opening",
-	})
+	id := context.Query("id")
+	if id == "" {
+		const statusCode = http.StatusBadRequest
+		context.JSON(statusCode, gin.H{
+			"error":       "Bad request",
+			"reason":      "id (type: string) is missing",
+			"status_code": statusCode,
+		})
+		return
+	}
+
+	opening := schemas.Opening{}
+
+	if err := db.First(&opening, id).Error; err != nil {
+		const statusCode = http.StatusNotFound
+		context.JSON(statusCode, gin.H{
+			"error":       "Not found",
+			"reason":      "resource no found",
+			"status_code": statusCode,
+		})
+		return
+	}
+
+	if err := db.Delete(&opening).Error; err != nil {
+		const statusCode = http.StatusInternalServerError
+		context.JSON(statusCode, gin.H{
+			"error":       "Internal server error",
+			"reason":      "error deleting the resource",
+			"status_code": statusCode,
+		})
+		return
+	}
+
+	context.JSON(http.StatusNoContent, gin.H{})
 }
 
 func updateOpeningHander(context *gin.Context) {
-	context.JSON(http.StatusOK, gin.H{
-		"message": "UPDATE Opening",
-	})
+	id := context.Query("id")
+	if id == "" {
+		const statusCode = http.StatusBadRequest
+		context.JSON(statusCode, gin.H{
+			"error":       "Bad request",
+			"reason":      "id (type: string) is missing",
+			"status_code": statusCode,
+		})
+		return
+	}
+
+	opening := schemas.Opening{}
+
+	if err := db.First(&opening, id).Error; err != nil {
+		const statusCode = http.StatusNotFound
+		context.JSON(statusCode, gin.H{
+			"error":       "Not found",
+			"reason":      "resource no found",
+			"status_code": statusCode,
+		})
+	}
+
+	if err := db.Delete(&opening).Error; err != nil {
+		const statusCode = http.StatusInternalServerError
+		context.JSON(statusCode, gin.H{
+			"error":       "Internal server error",
+			"reason":      "error deleting the resource",
+			"status_code": statusCode,
+		})
+	}
+
+	context.JSON(http.StatusNoContent, gin.H{})
 }
