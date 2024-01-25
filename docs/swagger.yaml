@@ -50,6 +50,56 @@ info:
   contact: {}
 paths:
   /openings:
+    delete:
+      consumes:
+      - application/json
+      description: delete job opening
+      parameters:
+      - description: Opening identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.OpeningResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: delete opening
+      tags:
+      - Openings
+    get:
+      consumes:
+      - application/json
+      description: shows job opening
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.OpeningResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: shows opening
+      tags:
+      - Openings
     post:
       consumes:
       - application/json
@@ -77,6 +127,71 @@ paths:
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: create opening
+      tags:
+      - Openings
+    put:
+      consumes:
+      - application/json
+      description: update job opening
+      parameters:
+      - description: Opening identification
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.OpeningResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: update opening
+      tags:
+      - Openings
+  /openings/get:
+    get:
+      consumes:
+      - application/json
+      description: find job opening
+      parameters:
+      - description: Opening identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.OpeningResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: find opening
       tags:
       - Openings
 swagger: "2.0"

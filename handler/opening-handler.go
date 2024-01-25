@@ -18,6 +18,16 @@ func openingHandler(openingRoutes *gin.RouterGroup) {
 	openingRoutes.PUT(root, updateOpeningHander)
 }
 
+// @BasePath /api/v1
+// @Summary shows opening
+// @Description shows job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Success 200 {object} OpeningResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /openings [get]
 func listOpeningsHandler(context *gin.Context) {
 	openings := []schemas.Opening{}
 
@@ -37,6 +47,17 @@ func listOpeningsHandler(context *gin.Context) {
 	})
 }
 
+// @BasePath /api/v1
+// @Summary find opening
+// @Description find job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Param id query string true "Opening identification"
+// @Success 200 {object} []OpeningResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /openings/get [get]
 func showSpecificOpening(context *gin.Context) {
 	id := context.Query("id")
 	if id == "" {
@@ -113,6 +134,17 @@ func createOpeningHander(context *gin.Context) {
 	context.JSON(http.StatusOK, createOpeningRequest)
 }
 
+// @BasePath /api/v1
+// @Summary delete opening
+// @Description delete job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Param id query string true "Opening identification"
+// @Success 200 {object} OpeningResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /openings [delete]
 func deleteOpeningHander(context *gin.Context) {
 	id := context.Query("id")
 	if id == "" {
@@ -150,6 +182,18 @@ func deleteOpeningHander(context *gin.Context) {
 	context.JSON(http.StatusNoContent, gin.H{})
 }
 
+// @BasePath /api/v1
+// @Summary update opening
+// @Description update job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Param id query string true "Opening identification"
+// @Param request body CreateOpeningRequest true "Request body"
+// @Success 200 {object} OpeningResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /openings [put]
 func updateOpeningHander(context *gin.Context) {
 	request := UpdateOpeningRequest{}
 
