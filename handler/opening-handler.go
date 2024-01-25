@@ -63,6 +63,17 @@ func showSpecificOpening(context *gin.Context) {
 	context.JSON(http.StatusOK, opening)
 }
 
+// @BasePath /api/v1
+// @Summary create opening
+// @Description create new job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Param request body CreateOpeningRequest true "Request body"
+// @Success 200 {object} OpeningResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /openings [post]
 func createOpeningHander(context *gin.Context) {
 	createOpeningRequest := CreateOpeningRequest{}
 
@@ -212,4 +223,10 @@ func updateOpeningHander(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, opening)
+}
+
+type ErrorResponse struct {
+	Error      string `json:"error"`
+	Reason     string `json:"reason"`
+	StatusCode int    `json:"status_code"`
 }
